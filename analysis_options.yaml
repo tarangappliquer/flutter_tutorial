@@ -16,6 +16,7 @@ analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
+    - "**/*.gr.dart"
     - "**/*.chopper.dart"
 
 linter:
