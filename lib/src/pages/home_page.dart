@@ -1,4 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'dart:math';
+
+part 'home_page.g.dart';
+
+@riverpod
+class Counter extends _$Counter {
+  @override
+  int build() => 0;
+
+  void increment({int count = 1}) => state = state + max(count, 1);
+}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -10,14 +23,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,18 +35,41 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: .center,
           children: [
             const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            CountText(),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+      floatingActionButton: IncreaseButton(),
+    );
+  }
+}
+
+class IncreaseButton extends ConsumerWidget {
+  const IncreaseButton({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return InkWell(
+      splashColor: Colors.blue,
+      onLongPress: () => ref.invalidate(counterProvider),
+      onDoubleTap: () => ref.read(counterProvider.notifier).increment(count: 5),
+      onTap: () => ref.read(counterProvider.notifier).increment(count: 1),
+      child: FloatingActionButton(
+        onPressed: () => ref.read(counterProvider.notifier).increment(count: 1),
         child: const Icon(Icons.add),
       ),
+    );
+  }
+}
+
+class CountText extends ConsumerWidget {
+  const CountText({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Text(
+      '${ref.watch(counterProvider)}',
+      style: Theme.of(context).textTheme.headlineMedium,
     );
   }
 }
