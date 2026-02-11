@@ -11,5 +11,14 @@
     "**/.plugin_symlinks": true
   },
   "hide-files.files": [],
-  "dart.flutterSdkPath": ".fvm/versions/3.38.9"
+  "dart.flutterSdkPath": ".fvm/versions/3.38.9",
+  "editor.formatOnSave": true,
+  "[dart]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.suggest.insertMode": "replace",
+    "editor.defaultFormatter": "Dart-Code.dart-code",
+    "editor.inlayHints.enabled": "offUnlessPressed"
+  }
 }
